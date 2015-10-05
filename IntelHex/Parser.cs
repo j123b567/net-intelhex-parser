@@ -178,23 +178,19 @@ namespace IntelHex
 
 		}
 
-		/**
-     * Return program start address/reset address. May not be at the beggining
-     * of the data.
-     *
-     * @return Start address
-     */
+		/// <summary>
+		/// Return program start address/reset address. May not be at the beggining 
+		/// of the data.
+		/// </summary>
+		/// <returns>The start address.</returns>
 		public long GetStartAddress ()
 		{
 			return startAddress;
 		}
 
-		/**
-     * Main public method to start parsing of the input
-     *
-     * @throws IntelHexException
-     * @throws IOException
-     */
+		/// <summary>
+		/// Main public method to start parsing of the input
+		/// </summary>
 		public void Parse ()
 		{
 			eof = false;

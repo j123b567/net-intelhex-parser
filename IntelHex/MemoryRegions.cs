@@ -38,6 +38,11 @@ namespace IntelHex
 
 		private List<Region> regions = new List<Region> ();
 
+		/// <summary>
+		/// Add region to list
+		/// </summary>
+		/// <param name="start">Start.</param>
+		/// <param name="length">Length.</param>
 		public void Add (uint start, uint length)
 		{
 			Region prevRegion;
@@ -52,6 +57,9 @@ namespace IntelHex
 			regions.Add (new Region (start, length));
 		}
 
+		/// <summary>
+		/// Compact regions
+		/// </summary>
 		public void Compact ()
 		{
 			regions.Sort ();
@@ -73,21 +81,35 @@ namespace IntelHex
 			}
 		}
 
+		/// <summary>
+		/// Clear all regions
+		/// </summary>
 		public void Clear ()
 		{
 			regions.Clear ();
 		}
 
+		/// <summary>
+		/// Number of regions
+		/// </summary>
 		public int Size ()
 		{
 			return regions.Count;
 		}
 
+		/// <summary>
+		/// Get specific region
+		/// </summary>
+		/// <param name="index">Index.</param>
 		public Region Get (int index)
 		{
 			return regions[index];
 		}
 
+		/// <summary>
+		/// Get region representing whole memory
+		/// </summary>
+		/// <returns>The full range region.</returns>
 		public Region GetFullRangeRegion ()
 		{
 			uint start = 0;
@@ -101,7 +123,10 @@ namespace IntelHex
 			return new Region (start, length);
 		}
 
-	
+		/// <summary>
+		/// String representing region
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="IntelHex.MemoryRegions"/>.</returns>
 		public override string ToString ()
 		{
 			StringBuilder sb = new StringBuilder ();

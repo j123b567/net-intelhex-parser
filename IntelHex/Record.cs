@@ -40,6 +40,10 @@ namespace IntelHex
 		public RecordType Type;
 		public byte[] Data;
 
+		/// <summary>
+		/// Convert record to string for debuging
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="IntelHex.Record"/>.</returns>
 		public override string ToString() {
 			StringBuilder sb = new StringBuilder();
 

@@ -41,27 +41,27 @@ namespace IntelHexParser
 		{
 		}
 
-		/**
-     * Convert Intel HEX to bin
-     *
-     * usage:
-     *
-     * IntelHexParserDemo {source} {target}
-     *
-     * IntelHexParserDemo {source} {target} {address_from} {address_to}
-     * 
-     * {source} is source Intel HEX file name
-     *
-     * {target} is target BIN file name
-     *
-     * {address_from} is start address e.g. 0x1D000000 or min
-     *
-     * {address_to} is end address e.g. 0x1D07FFFF or max
-     *
-     * if no address_from and address_to is specified, maximum range is used
-     *
-     * @param args the command line arguments
-     */
+		/// <summary>
+     	/// Convert Intel HEX to bin
+		///
+		/// usage:
+		///
+		/// IntelHexParserDemo {source} {target}
+		///
+		/// IntelHexParserDemo {source} {target} {address_from} {address_to}
+		/// 
+		/// {source} is source Intel HEX file name
+		///
+		/// {target} is target BIN file name
+		///
+		/// {address_from} is start address e.g. 0x1D000000 or min
+		///
+		/// {address_to} is end address e.g. 0x1D07FFFF or max
+		///
+		/// if no address_from and address_to is specified, maximum range is used
+		///
+		/// </summary>
+		/// <param name="args">The command-line arguments.</param>
 		public static void Main (string[] args)
 		{
 			string fileIn = "Application.hex";
