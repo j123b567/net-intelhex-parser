@@ -18,7 +18,7 @@
     }
 
     // create input stream of some IntelHex data
-    IFileStream ifs = new FileStream ("Application.hex, FileMode.Open);
+    IFileStream ifs = new FileStream ("Application.hex", FileMode.Open);
     
     // create IntelHex Parser object
     Parser parser = new Parser (ifs);
