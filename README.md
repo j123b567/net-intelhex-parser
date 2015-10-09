@@ -1,8 +1,33 @@
-IntelHex parser in c#
+.NET IntelHex Parser Library
 --------
 
-net-intelhex-parser is IntelHex parser in c#
+* IntelHex file format parsing library written in Java.
+* Licensed under Simplified BSD license
+* Including demo code: intelhex to binary converter hex2bin
 
-It is designed to convert IntelHEX file format to some binary representation. You can register your own data listener to parsed binary data.
+~~~~~
 
-hex2bin demo application is also provided to show full power of this library
+    class MyDataListener : IDataListener {
+        public void Data(uint address, byte[] data) {
+            // process data
+        }
+        
+        public void Eof() {
+            // do some action
+        }
+    }
+
+    // create input stream of some IntelHex data
+    IFileStream ifs = new FileStream ("Application.hex, FileMode.Open);
+    
+    // create IntelHex Parser object
+    Parser parser = new Parser (ifs);
+    IDataListener dataListener = new MyDataListener();
+    
+    // register parser listener
+    parser.SetDataListener(dataListener);
+    parser.Parse();
+~~~~~
+
+
+There are two predefined `IDataListener` classes - `RangeDetector` and `BinWriter`. First can be used to detect memory ranges in intelhex file, second to write data to binary file.
