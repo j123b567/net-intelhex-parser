@@ -5,7 +5,7 @@
 * Licensed under Simplified BSD license
 * Including demo code: intelhex to binary converter hex2bin
 
-~~~~~
+~~~~~c#
 
     class MyDataListener : IDataListener {
         public void Data(uint address, byte[] data) {
