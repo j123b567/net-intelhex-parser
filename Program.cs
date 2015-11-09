@@ -136,9 +136,9 @@ namespace IntelHexParser
 			parser.Parse ();
 
 			// print statistics
-			Console.WriteLine (string.Format("Program start address 0x{0:x8}{{0}}\r\n", parser.GetStartAddress ()));
+			Console.WriteLine (string.Format("Program start address 0x{0:x8}\r\n", parser.GetStartAddress ()));
 			Console.WriteLine ("Memory regions: ");
-			Console.WriteLine (writer.getMemoryRegions ());
+			Console.WriteLine (rangeDetector.GetMemoryRegions ());
 
 			Console.Write ("Written output: ");
 			Console.WriteLine (outputRegion);

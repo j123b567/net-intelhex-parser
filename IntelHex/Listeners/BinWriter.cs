@@ -81,7 +81,7 @@ namespace IntelHex.Listeners
 			destination.Write (buffer, 0, (int)(maxAddress - outputRegion.GetAddressStart () + 1));
 		}
 
-		public MemoryRegions getMemoryRegions ()
+		public MemoryRegions GetMemoryRegions ()
 		{
 			return regions;
 		}

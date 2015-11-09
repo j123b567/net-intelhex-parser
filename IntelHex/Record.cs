@@ -49,10 +49,10 @@ namespace IntelHex
 
 			sb.Append(Type);
 			sb.Append(" @");
-			sb.Append(string.Format("0x{0:x4}{{0}}", Address));
+			sb.Append(string.Format("0x{0:x4}", Address));
 			sb.Append(" [");
 			foreach (byte c in Data) {
-				sb.Append(string.Format("{0:x2}{{0}}", c));
+				sb.Append(string.Format("{0:x2}", c));
 				sb.Append(" ");
 			}
 			sb.Remove(sb.Length - 1, 1);

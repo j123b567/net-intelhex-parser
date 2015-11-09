@@ -103,7 +103,7 @@ namespace IntelHex
 		/// <returns>A <see cref="System.String"/> that represents the current <see cref="IntelHex.Region"/>.</returns>
 		public override string ToString ()
 		{
-			return String.Format ("0x{0:x8}{{0}}:0x{0:x8}{{1}} ({2}B 0x{0:x8}{{3}})", addressStart, addressEnd, GetLength (), GetLength ());
+			return String.Format ("0x{0:x8}:0x{1:x8} ({2}B 0x{3:x8})", addressStart, addressEnd, GetLength (), GetLength ());
 		}
 
 
