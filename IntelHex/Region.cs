@@ -34,14 +34,56 @@ namespace IntelHex
 	public class Region : IComparable
 	{
 
-		private uint addressStart;
-		private uint addressEnd;
+		uint addressStart;
+		uint addressEnd;
+		bool exactStart;
+		bool exactEnd;
+
+		public Region (string range)
+		{
+			string [] region = range == null ? new string [0] : range.Split (':');
+			if (region.Length == 0) {
+				exactStart = ReadAddress ("min", out addressStart);
+				exactEnd = ReadAddress ("max", out addressEnd);
+			} else if (region.Length == 1) {
+				exactStart = ReadAddress (region [0], out addressStart);
+				exactEnd = ReadAddress ("max", out addressEnd);
+			} else {
+				exactStart = ReadAddress (region [0], out addressStart);
+				exactEnd = ReadAddress (region [1] != null && region [1] != "" ? region [1] : "max", out addressEnd);
+			}
+		}
 
 		public Region (uint start, uint length)
 		{
-			this.addressStart = start;
-			this.addressEnd = start + length - 1;
+			addressStart = start;
+			addressEnd = start + length - 1;
+			exactStart = true;
+			exactEnd = true;
 		}
+
+		static bool ReadAddress (string s, out uint result)
+		{
+			if (s != null && s != "") {
+				if (s == "min") {
+					result = 0;
+					return false;
+				}
+				if (s == "max") {
+					result = 0xFFFFFFFF;
+					return false;
+				}
+				if (s.StartsWith ("0x", StringComparison.InvariantCultureIgnoreCase)) {
+					result = Convert.ToUInt32 (s.Substring (2), 16);
+				} else {
+					result = Convert.ToUInt32 (s);
+				}
+				return true;
+			}
+			result = 0;
+			return false;
+		}
+
 
 		/// <summary>
 		/// Get length of the region
@@ -49,7 +91,11 @@ namespace IntelHex
 		/// <returns>The length.</returns>
 		public uint GetLength ()
 		{
-			return addressEnd - addressStart + 1;
+			if (addressStart <= addressEnd) {
+				return addressEnd - addressStart + 1;
+			}
+
+			return 0;
 		}
 
 		/// <summary>
@@ -68,6 +114,7 @@ namespace IntelHex
 		public void SetAddressEnd (uint addressEnd)
 		{
 			this.addressEnd = addressEnd;
+			this.exactEnd = true;
 		}
 
 		/// <summary>
@@ -86,6 +133,7 @@ namespace IntelHex
 		public void SetAddressStart (uint addressStart)
 		{
 			this.addressStart = addressStart;
+			this.exactStart = true;
 		}
 
 		/// <summary>
@@ -95,6 +143,39 @@ namespace IntelHex
 		public void IncLength (uint value)
 		{
 			addressEnd += value;
+		}
+
+
+		public bool HasExactStart ()
+		{
+			return exactStart;
+		}
+
+		public void SetExactStart (bool value)
+		{
+			exactStart = value;
+		}
+
+		/// <summary>
+		/// Hases the exact end.
+		/// </summary>
+		/// <returns>Wether the end address was exactly defined or calculated</returns>
+		public bool HasExactEnd ()
+		{
+			return exactEnd;
+		}
+
+		public void SetExactEnd (bool value)
+		{
+			exactEnd = value;
+		}
+
+		public void Intersection (Region other)
+		{
+			addressStart = addressStart > other.addressStart ? addressStart : other.addressStart;
+			addressEnd = addressEnd < other.addressEnd ? addressEnd : other.addressEnd;
+			//exactStart = exactStart | other.exactStart;
+			//exactEnd = exactEnd | other.exactEnd;
 		}
 
 		/// <summary>

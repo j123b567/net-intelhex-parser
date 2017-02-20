@@ -18,6 +18,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <Commandlineparameters></Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -43,6 +44,7 @@
     <Compile Include="IntelHex\Listeners\RangeDetector.cs" />
     <Compile Include="IntelHex\Listeners\BinWriter.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Mono.Options\Options.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -38,52 +38,67 @@ namespace IntelHex.Listeners
 	public class BinWriter : IDataListener
 	{
 
+		Region inputRegion;
+		Region outputRegion;
 
-		private Region outputRegion;
-		private Stream destination;
-		private byte[] buffer;
-		private MemoryRegions regions;
-		private uint maxAddress;
-		private bool minimize;
+		Stream destination;
+		byte[] buffer;
+		MemoryRegions writtenRegions;
+		Region written;
 
-		public BinWriter (Region outputRegion, Stream destination, bool minimize)
+
+		public BinWriter (Region inputRegion, Region outputRegion, byte fill, Stream destination)
 		{
+			this.inputRegion = inputRegion;
 			this.outputRegion = outputRegion;
 			this.destination = destination;
-			this.minimize = minimize;
-			this.buffer = Enumerable.Repeat((byte)0xFF, (int)outputRegion.GetLength ()).ToArray();
-			regions = new MemoryRegions ();
-			maxAddress = outputRegion.GetAddressStart ();
+
+			buffer = Enumerable.Repeat(fill, (int)outputRegion.GetLength ()).ToArray();
+			writtenRegions = new MemoryRegions ();
+			written = new Region (0, 0);
+
+			if (!this.outputRegion.HasExactStart ()) {
+				this.outputRegion.SetAddressStart (this.inputRegion.GetAddressStart ());
+			}
+			if (!this.outputRegion.HasExactEnd ()) {
+				this.outputRegion.SetAddressEnd ((uint)this.inputRegion.GetAddressEnd ());
+			}
 		}
 
 		public void Data (uint address, byte[] data)
 		{
-			regions.Add (address, (uint)data.Length);
+			var current = new Region (address, (uint)data.Length);
+			current.Intersection (inputRegion);
+			current.Intersection (outputRegion);
 
-			if ((address >= outputRegion.GetAddressStart ()) && (address <= outputRegion.GetAddressEnd ())) {
-				int length = data.Length;
-				if ((address + length) > outputRegion.GetAddressEnd ()) {
-					length = (int)(outputRegion.GetAddressEnd () - address + 1);
-				}
-				Array.Copy (data, 0, buffer, (int)(address - outputRegion.GetAddressStart ()), length);
-
-				if (maxAddress < (address + data.Length - 1)) {
-					maxAddress = address + (uint)data.Length - 1;
-				}
+			if (current.GetLength () > 0) {
+				long sourceIndex = current.GetAddressStart () - address;
+				long destinationIndex = address - outputRegion.GetAddressStart();
+				Array.Copy (data, (int)sourceIndex, buffer, (int)destinationIndex, current.GetLength());
+				writtenRegions.Add (current);
 			}
 		}
 
 		public void Eof ()
-		{       
-			if (!minimize) {
-				maxAddress = (uint)outputRegion.GetAddressEnd ();
-			}
-			destination.Write (buffer, 0, (int)(maxAddress - outputRegion.GetAddressStart () + 1));
+		{
+			UpdateWritten ();
+			destination.Write (buffer, 0, (int)written.GetLength());
 		}
 
-		public MemoryRegions GetMemoryRegions ()
+		void UpdateWritten ()
 		{
-			return regions;
+			written = writtenRegions.GetFullRangeRegion ();
+			if (outputRegion.HasExactStart ()) {
+				written.SetAddressStart (outputRegion.GetAddressStart ());
+			}
+			if (outputRegion.HasExactEnd ()) {
+				written.SetAddressEnd ((uint)outputRegion.GetAddressEnd ());
+			}
+		}
+
+		public Region GetWrittenRegion ()
+		{
+			return written;
 		}
 	}
 }

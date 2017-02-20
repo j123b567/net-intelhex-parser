@@ -41,6 +41,15 @@ namespace IntelHex
 		/// <summary>
 		/// Add region to list
 		/// </summary>
+		/// <param name="region">Region.</param>
+		public void Add (Region region)
+		{
+			Add (region.GetAddressStart (), region.GetLength ());
+		}
+
+		/// <summary>
+		/// Add region to list
+		/// </summary>
 		/// <param name="start">Start.</param>
 		/// <param name="length">Length.</param>
 		public void Add (uint start, uint length)
