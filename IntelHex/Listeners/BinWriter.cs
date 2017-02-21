@@ -53,7 +53,6 @@ namespace IntelHex.Listeners
 			this.outputRegion = outputRegion;
 			this.destination = destination;
 
-			buffer = Enumerable.Repeat(fill, (int)outputRegion.GetLength ()).ToArray();
 			writtenRegions = new MemoryRegions ();
 			written = new Region (0, 0);
 
@@ -63,6 +62,8 @@ namespace IntelHex.Listeners
 			if (!this.outputRegion.HasExactEnd ()) {
 				this.outputRegion.SetAddressEnd ((uint)this.inputRegion.GetAddressEnd ());
 			}
+
+			buffer = Enumerable.Repeat (fill, (int)outputRegion.GetLength ()).ToArray ();
 		}
 
 		public void Data (uint address, byte[] data)
