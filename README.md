@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fj123b567%2Fnet-intelhex-parser.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fj123b567%2Fnet-intelhex-parser?ref=badge_shield)
+
 .NET IntelHex Parser Library
 --------
 
@@ -31,3 +33,6 @@
 
 
 There are two predefined `IDataListener` classes - `RangeDetector` and `BinWriter`. First can be used to detect memory ranges in intelhex file, second to write data to binary file.
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fj123b567%2Fnet-intelhex-parser.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fj123b567%2Fnet-intelhex-parser?ref=badge_large)
